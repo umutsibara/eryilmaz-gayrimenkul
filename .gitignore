@@ -1,0 +1,6 @@
+# Temporary scrape files
+page_*.html
+listings_basic.json
+listings_full.json
+.DS_Store
+Thumbs.db
