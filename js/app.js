@@ -1,6 +1,6 @@
 /**
  * Eryılmaz Gayrimenkul - Ana Uygulama Mantığı
- * Sade, minimalist, ultra hızlı filtreleme ve interaktif detay modalı.
+ * Geniş sinema modu fotoğraf tiyatrosu ve %100 ekranı kaplayan Lightbox desteği.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     category: 'all',        // 'all', 'Daire / Konut', 'Arsa & Bahçe', 'İşyeri & Ticari', 'Tarla & Arazi'
     neighborhood: 'all',    // Mahalle filtresi
     searchQuery: '',        // Arama metni
-    sortBy: 'default',      // 'default', 'price-asc', 'price-desc', 'date-desc'
+    sortBy: 'default',      // 'default', 'price-asc', 'price-desc', 'id-desc'
     currentModalItem: null,
-    currentImageIndex: 0
+    currentImageIndex: 0,
+    isLightboxOpen: false
   };
 
   // DOM Elemanları
@@ -32,23 +33,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // Modal DOM Elemanları
   const modalOverlay = document.getElementById('modal-overlay');
   const modalCloseBtn = document.getElementById('modal-close-btn');
+  const galleryStage = document.getElementById('gallery-stage');
   const galleryMainImg = document.getElementById('gallery-main-img');
   const galleryThumbs = document.getElementById('gallery-thumbs');
   const galleryCounter = document.getElementById('gallery-counter');
   const galleryPrevBtn = document.getElementById('gallery-prev-btn');
   const galleryNextBtn = document.getElementById('gallery-next-btn');
+  const btnOpenLightbox = document.getElementById('btn-open-lightbox');
+
   const modalStatusBadge = document.getElementById('modal-status-badge');
   const modalCategoryBadge = document.getElementById('modal-category-badge');
+  const modalIdPill = document.getElementById('modal-id-pill');
   const modalPrice = document.getElementById('modal-price');
   const modalTitle = document.getElementById('modal-title');
   const modalLoc = document.getElementById('modal-loc');
+  const modalQuickChips = document.getElementById('modal-quick-chips');
   const modalSpecsGrid = document.getElementById('modal-specs-grid');
   const modalDesc = document.getElementById('modal-desc');
   const modalFeatures = document.getElementById('modal-features');
+  const modalFeaturesTitle = document.getElementById('modal-features-title');
   const modalWaBtn = document.getElementById('modal-wa-btn');
   const modalCallBtn = document.getElementById('modal-call-btn');
   const modalShareBtn = document.getElementById('modal-share-btn');
   const toastEl = document.getElementById('toast');
+
+  // Lightbox DOM Elemanları
+  const lightboxFullscreen = document.getElementById('lightbox-fullscreen');
+  const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+  const lightboxTitleText = document.getElementById('lightbox-title-text');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const lightboxMainImg = document.getElementById('lightbox-main-img');
+  const lightboxPrevBtn = document.getElementById('lightbox-prev-btn');
+  const lightboxNextBtn = document.getElementById('lightbox-next-btn');
+  const lightboxThumbs = document.getElementById('lightbox-thumbs');
 
   // 1. Mahalle Seçeneklerini Dinamik Doldur
   function populateNeighborhoods() {
@@ -85,22 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. İlanları Filtrele & Sırala
   function getFilteredListings() {
     let result = listings.filter(item => {
-      // Durum Filtresi (Satılık / Kiralık)
       if (state.status !== 'all' && item.status !== state.status) {
         return false;
       }
-
-      // Kategori Filtresi
       if (state.category !== 'all' && item.category !== state.category) {
         return false;
       }
-
-      // Mahalle Filtresi
       if (state.neighborhood !== 'all' && item.neighborhood !== state.neighborhood) {
         return false;
       }
-
-      // Arama Sorgusu
       if (state.searchQuery.trim() !== '') {
         const q = state.searchQuery.toLocaleLowerCase('tr').trim();
         const searchCorpus = [
@@ -119,11 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return false;
         }
       }
-
       return true;
     });
 
-    // Sıralama
     if (state.sortBy === 'price-asc') {
       result.sort((a, b) => a.priceNum - b.priceNum);
     } else if (state.sortBy === 'price-desc') {
@@ -166,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isSatilik = item.status === 'Satılık';
       const badgeClass = isSatilik ? 'badge-satilik' : 'badge-kiralik';
       const imageCount = item.images && item.images.length ? item.images.length : 1;
-      const mainImg = item.mainImage || 'assets/img/placeholder.jpg';
+      const mainImg = item.mainImage || 'assets/icons/favicon.svg';
 
       return `
         <article class="listing-card" data-id="${item.id}">
@@ -217,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="card-footer">
               <button class="btn btn-outline btn-sm" onclick="window.openDetail('${item.id}')">
-                Detayları Gör
+                İlanı İncele
               </button>
               <a class="btn btn-whatsapp btn-sm" href="https://wa.me/${company.whatsapp || '905544613618'}?text=${encodeURIComponent('Merhaba Muzaffer Bey, ' + item.title + ' (İlan No: ' + item.id + ') hakkında bilgi alabilir miyim?')}" target="_blank" rel="noopener">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -240,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.currentModalItem = item;
     state.currentImageIndex = 0;
 
-    // Fotoğraf galerisi hazırlığı
+    // Fotoğraflar
     const imgs = item.images && item.images.length > 0 ? item.images : [item.mainImage];
     updateGallery(imgs, 0);
 
@@ -249,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modalStatusBadge.textContent = item.status;
     modalStatusBadge.className = `card-badge-status ${isSatilik ? 'badge-satilik' : 'badge-kiralik'}`;
     modalCategoryBadge.textContent = item.category;
+    modalIdPill.textContent = `İlan No: ${item.id}`;
 
     modalPrice.textContent = item.price;
     modalTitle.textContent = item.title;
@@ -257,10 +266,24 @@ document.addEventListener('DOMContentLoaded', () => {
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
-      ${escapeHtml(item.locationDisplay)}
+      <span>${escapeHtml(item.locationDisplay)}</span>
     `;
 
-    // Özellikler Izgarası (Specs Grid)
+    // Hızlı Özet Çipleri
+    const quickChips = [];
+    if (item.m2) quickChips.push({ label: 'Alan', val: item.m2, icon: '📐' });
+    if (item.rooms) quickChips.push({ label: 'Oda', val: item.rooms, icon: '🚪' });
+    if (item.floor) quickChips.push({ label: 'Kat', val: `${item.floor}. Kat`, icon: '🏢' });
+    quickChips.push({ label: 'Durum', val: item.status, icon: '🏷️' });
+
+    modalQuickChips.innerHTML = quickChips.map(c => `
+      <div class="quick-chip-box">
+        <span>${c.icon}</span>
+        <span>${escapeHtml(c.val)}</span>
+      </div>
+    `).join('');
+
+    // Teknik Özellikler Izgarası
     const specs = [
       { label: 'İlan No', val: item.id },
       { label: 'Kategori', val: item.category },
@@ -271,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'İlan Tarihi', val: item.date || '-' }
     ];
 
-    // Ekstra gelen specs'leri de ekle
     if (item.specs) {
       Object.keys(item.specs).forEach(k => {
         if (!['İlan No', 'Brüt m²', 'Oda Sayısı', 'Bulunduğu Kat', 'Güncelleme Tarihi'].includes(k)) {
@@ -296,8 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="modal-feature-pill">${escapeHtml(f)}</span>
       `).join('');
       modalFeatures.style.display = 'flex';
+      if (modalFeaturesTitle) modalFeaturesTitle.style.display = 'block';
     } else {
       modalFeatures.style.display = 'none';
+      if (modalFeaturesTitle) modalFeaturesTitle.style.display = 'none';
     }
 
     // Buton Eylemleri
@@ -329,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `).join('');
 
-      // Aktif thumb'ı görünür alana kaydır
       const activeThumb = galleryThumbs.children[index];
       if (activeThumb) {
         activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -368,7 +391,92 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. Paylaşım Butonu
+  // ================================================================
+  // 6. YENİ: %100 EKRANI KAPLAYAN DEV LIGHTBOX (SİNEMA MODU)
+  // ================================================================
+  function openLightbox(index) {
+    if (!state.currentModalItem) return;
+    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
+    if (!imgs || imgs.length === 0) return;
+
+    state.isLightboxOpen = true;
+    updateLightbox(imgs, index !== undefined ? index : state.currentImageIndex);
+
+    lightboxTitleText.textContent = state.currentModalItem.title;
+    lightboxFullscreen.classList.add('active');
+  }
+
+  function closeLightbox() {
+    state.isLightboxOpen = false;
+    lightboxFullscreen.classList.remove('active');
+  }
+
+  function updateLightbox(imgs, index) {
+    state.currentImageIndex = index;
+    lightboxMainImg.src = imgs[index];
+    lightboxCounter.textContent = `${index + 1} / ${imgs.length}`;
+
+    // Lightbox thumbs
+    if (lightboxThumbs) {
+      lightboxThumbs.innerHTML = imgs.map((src, i) => `
+        <div class="lightbox-thumb-item ${i === index ? 'active' : ''}" onclick="window.selectLightboxImage(${i})">
+          <img src="${src}" alt="Küçük Önizleme ${i + 1}" loading="lazy">
+        </div>
+      `).join('');
+
+      const activeThumb = lightboxThumbs.children[index];
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    // Modal sahnesini de senkronize et
+    updateGallery(imgs, index);
+  }
+
+  window.selectLightboxImage = function(index) {
+    if (!state.currentModalItem) return;
+    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
+    updateLightbox(imgs, index);
+  };
+
+  function nextLightboxImage() {
+    if (!state.currentModalItem) return;
+    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
+    let nextIdx = state.currentImageIndex + 1;
+    if (nextIdx >= imgs.length) nextIdx = 0;
+    updateLightbox(imgs, nextIdx);
+  }
+
+  function prevLightboxImage() {
+    if (!state.currentModalItem) return;
+    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
+    let prevIdx = state.currentImageIndex - 1;
+    if (prevIdx < 0) prevIdx = imgs.length - 1;
+    updateLightbox(imgs, prevIdx);
+  }
+
+  // Fotoğrafa tıklandığında veya "Tam Ekran Büyüt" butonuna basıldığında
+  if (galleryStage) {
+    galleryStage.addEventListener('click', (e) => {
+      // Ok butonlarına tıklandıysa lightbox açma
+      if (e.target.closest('.gallery-nav-btn')) return;
+      openLightbox(state.currentImageIndex);
+    });
+  }
+
+  if (btnOpenLightbox) {
+    btnOpenLightbox.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLightbox(state.currentImageIndex);
+    });
+  }
+
+  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
+  if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', prevLightboxImage);
+  if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', nextLightboxImage);
+
+  // 7. Paylaşım Butonu
   if (modalShareBtn) {
     modalShareBtn.addEventListener('click', () => {
       const shareUrl = window.location.href;
@@ -379,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(() => {});
       } else {
         navigator.clipboard.writeText(shareUrl).then(() => {
-          showToast('İlan bağlantısı kopyalandı!');
+          showToast('İlan bağlantısı panoya kopyalandı!');
         }).catch(() => {
           showToast('Bağlantı kopyalanamadı.');
         });
@@ -397,8 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
   }
 
-  // 7. Filtre Olay Dinleyicileri
-  // Sekmeler (Tümü / Satılık / Kiralık)
+  // 8. Filtre Olay Dinleyicileri
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       tabButtons.forEach(b => b.classList.remove('active'));
@@ -408,7 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Kategori Butonları (Daire, Arsa, İşyeri, Tarla)
   categoryPills.forEach(pill => {
     pill.addEventListener('click', () => {
       categoryPills.forEach(p => p.classList.remove('active'));
@@ -418,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Arama Kutusu
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value;
@@ -426,7 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mahalle Seçimi
   if (neighborhoodSelect) {
     neighborhoodSelect.addEventListener('change', (e) => {
       state.neighborhood = e.target.value;
@@ -434,7 +538,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sıralama Seçimi
   if (sortSelect) {
     sortSelect.addEventListener('change', (e) => {
       state.sortBy = e.target.value;
@@ -442,7 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Filtreleri Sıfırla
   function resetAllFilters() {
     state.status = 'all';
     state.category = 'all';
@@ -467,9 +569,9 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBtn.addEventListener('click', resetAllFilters);
   }
 
-  // Galeri Butonları & Klavye
-  if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', prevGalleryImage);
-  if (galleryNextBtn) galleryNextBtn.addEventListener('click', nextGalleryImage);
+  // Galeri Butonları
+  if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevGalleryImage(); });
+  if (galleryNextBtn) galleryNextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextGalleryImage(); });
   if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
 
   if (modalOverlay) {
@@ -478,11 +580,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Klavye Navigasyonu
   document.addEventListener('keydown', (e) => {
-    if (!modalOverlay.classList.contains('active')) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowRight') nextGalleryImage();
-    if (e.key === 'ArrowLeft') prevGalleryImage();
+    if (state.isLightboxOpen) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextLightboxImage();
+      if (e.key === 'ArrowLeft') prevLightboxImage();
+      return;
+    }
+
+    if (modalOverlay.classList.contains('active')) {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') nextGalleryImage();
+      if (e.key === 'ArrowLeft') prevGalleryImage();
+    }
   });
 
   // Hash ile doğrudan ilan açma desteği
@@ -494,7 +605,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Güvenli HTML escape
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
