@@ -1,6 +1,6 @@
 /**
  * Eryılmaz Gayrimenkul - Ana Uygulama Mantığı
- * Geniş sinema modu fotoğraf tiyatrosu ve %100 ekranı kaplayan Lightbox desteği.
+ * Kusursuz ortalanmış galeri, sabit üst bilgi çubuğu ve %100 tam ekran Lightbox desteği.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxNextBtn = document.getElementById('lightbox-next-btn');
   const lightboxThumbs = document.getElementById('lightbox-thumbs');
 
-  // 1. Mahalle Seçeneklerini Dinamik Doldur
+  // 1. Mahalle Seçeneklerini Doldur
   function populateNeighborhoods() {
     if (!neighborhoodSelect) return;
     const neighborhoods = new Set();
@@ -252,17 +252,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgs = item.images && item.images.length > 0 ? item.images : [item.mainImage];
     updateGallery(imgs, 0);
 
-    // Başlık, fiyat ve rozetler
+    // Üst Bar Bilgileri (Sabit Başlık Çubuğu)
     const isSatilik = item.status === 'Satılık';
     modalStatusBadge.textContent = item.status;
-    modalStatusBadge.className = `card-badge-status ${isSatilik ? 'badge-satilik' : 'badge-kiralik'}`;
+    modalStatusBadge.className = `badge-status-pill ${isSatilik ? 'badge-satilik' : 'badge-kiralik'}`;
     modalCategoryBadge.textContent = item.category;
     modalIdPill.textContent = `İlan No: ${item.id}`;
 
     modalPrice.textContent = item.price;
     modalTitle.textContent = item.title;
     modalLoc.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
@@ -272,8 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hızlı Özet Çipleri
     const quickChips = [];
     if (item.m2) quickChips.push({ label: 'Alan', val: item.m2, icon: '📐' });
-    if (item.rooms) quickChips.push({ label: 'Oda', val: item.rooms, icon: '🚪' });
-    if (item.floor) quickChips.push({ label: 'Kat', val: `${item.floor}. Kat`, icon: '🏢' });
+    if (item.rooms) quickChips.push({ label: 'Oda Sayısı', val: item.rooms, icon: '🚪' });
+    if (item.floor) quickChips.push({ label: 'Bulunduğu Kat', val: `${item.floor}. Kat`, icon: '🏢' });
     quickChips.push({ label: 'Durum', val: item.status, icon: '🏷️' });
 
     modalQuickChips.innerHTML = quickChips.map(c => `
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================================================================
-  // 6. YENİ: %100 EKRANI KAPLAYAN DEV LIGHTBOX (SİNEMA MODU)
+  // 6. %100 EKRANI KAPLAYAN DEV LIGHTBOX (SİNEMA MODU)
   // ================================================================
   function openLightbox(index) {
     if (!state.currentModalItem) return;
@@ -416,7 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lightboxMainImg.src = imgs[index];
     lightboxCounter.textContent = `${index + 1} / ${imgs.length}`;
 
-    // Lightbox thumbs
     if (lightboxThumbs) {
       lightboxThumbs.innerHTML = imgs.map((src, i) => `
         <div class="lightbox-thumb-item ${i === index ? 'active' : ''}" onclick="window.selectLightboxImage(${i})">
@@ -430,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Modal sahnesini de senkronize et
     updateGallery(imgs, index);
   }
 
@@ -456,10 +454,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLightbox(imgs, prevIdx);
   }
 
-  // Fotoğrafa tıklandığında veya "Tam Ekran Büyüt" butonuna basıldığında
+  // Fotoğrafa tıklandığında veya Tam Ekran butonuna basıldığında
   if (galleryStage) {
     galleryStage.addEventListener('click', (e) => {
-      // Ok butonlarına tıklandıysa lightbox açma
       if (e.target.closest('.gallery-nav-btn')) return;
       openLightbox(state.currentImageIndex);
     });
@@ -495,7 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toast Bildirim
   function showToast(msg) {
     if (!toastEl) return;
     toastEl.textContent = msg;
