@@ -25,131 +25,146 @@ window.COMPANY_DATA = {
 
 window.LISTINGS_DATA = [
   {
-    "id": "3d-demo-01",
+    "id": "595551",
     "isFeatured": true,
     "has3DTour": true,
-    "title": "TURGUTLU ERGENEKON'DA 3D SANAL TURLU LÜKS 4+1 AKILLI VİLLA & TERAS",
-    "url": "ilan.html?id=3d-demo-01",
-    "status": "Satılık",
-    "category": "Daire / Konut",
-    "price": "9.850.000 TL",
-    "priceNum": 9850000,
-    "date": "17 Ekim 2026",
-    "city": "Manisa",
-    "district": "Turgutlu",
-    "neighborhood": "Ergenekon Mah.",
-    "locationDisplay": "Turgutlu, Ergenekon Mah.",
-    "m2": "285 m²",
-    "rooms": "4+1",
-    "floor": "Müstakil (3 Kat)",
-    "specs": {
-      "İlan No": "ERY-3D-9850",
-      "Brüt m²": "285 m²",
-      "Net m²": "240 m²",
-      "Oda Sayısı": "4+1",
-      "Bina Yaşı": "0 (Sıfır)",
-      "Bulunduğu Kat": "Müstakil Bahçeli",
-      "Isıtma": "Yerden Isıtma & Doğalgaz",
-      "Banyo Sayısı": "3 (2 Ebeveyn Banyolu)",
-      "Balkon / Teras": "Geniş Panoramik Teras",
-      "Krediye Uygunluk": "Evet",
-      "Tapu Durumu": "Kat Mülkiyetli (Müstakil)",
-      "Sanal Tur": "3D 360° Etkileşimli Tur Mevcut"
-    },
-    "features": [
-      "3D Sanal Tur Desteği",
-      "Akıllı Ev Otomasyonu",
-      "Yerden Isıtma",
-      "Ebeveyn Banyosu",
-      "Giyinme Odası",
-      "Özel Otopark",
-      "Peyzajlı Bahçe",
-      "Otomatik Panjur",
-      "Lüks Ankastre Set",
-      "Teras & Barbekü Alanı",
-      "Kamera & Güvenlik Sistemi",
-      "Görüntülü Diafon"
-    ],
-    "description": "ERYILMAZ EMLAK & GAYRİMENKUL GÜVENCESİYLE\nMANİSA TURGUTLU ERGENEKON MAHALLESİ'NİN EN SEÇKİN VE NEZİH MEVKİİNDE\n\nBu ilanı Türkiye'nin en modern 3D Sanal Tur teknolojisi ile yerinizden kalkmadan, odaların içinde 360 derece adım adım gezerek inceleyebilirsiniz!\n\nÖNE ÇIKAN ÖZELLİKLER:\n• 285 m² Brüt, 240 m² Net kullanım alanı\n• 4+1 ferah oda mimarisi, yüksek tavanlar ve geniş cam cepheler\n• 1. Sınıf ithal lake mutfak dolapları ve granit ada tezgah\n• 3 adet lüks banyo & WC (2 ebeveyn banyosu)\n• Akıllı ev sistemi ile cep telefonu üzerinden uzaktan kontrol\n• Müstakil bahçe ve geniş dinlenme terası\n• Okullara, marketlere ve yeni yaşam merkezine yürüme mesafesinde\n\nAYRINTILI BİLGİ, YER GÖSTERİMİ VE RANDEVU İÇİN:\nMuzaffer ERYILMAZ - 0 (554) 461 36 18",
-    "images": [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80"
-    ],
-    "mainImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-    "tourRooms": [
-      {
-        "id": "salon",
-        "name": "Ferah Salon (Giriş)",
-        "panorama": "https://pannellum.org/images/alma.jpg",
-        "desc": "Yüksek tavanlı, bahçe manzaralı geniş salon"
-      },
-      {
-        "id": "mutfak",
-        "name": "Lüks Ada Mutfak",
-        "panorama": "https://pannellum.org/images/cerro-toco-0.jpg",
-        "desc": "Özel tasarım ada tezgah ve ankastre alan"
-      },
-      {
-        "id": "teras",
-        "name": "Panoramik Teras & Manzara",
-        "panorama": "https://pannellum.org/images/bma-1.jpg",
-        "desc": "Açık hava oturma ve barbekü alanı"
-      }
-    ]
-  },
-  {
-    "id": "595551",
-    "title": "ATATÜRK BULVARINDA 240 M2 5+1 ŞEKLİNDE KİRALIK OFİS.",
-    "url": "https://emlaksitem.com/ilan/ataturk-bulvarinda-240-m2-51-seklinde-kiralik-ofis-595551",
+    "title": "ATATÜRK BULVARINDA 240 M² 5+1 3D EV TURLU KİRALIK DAİRE / OFİS",
+    "url": "ilan.html?id=595551",
     "status": "Kiralık",
     "category": "Daire / Konut",
     "price": "45.000 TL",
     "priceNum": 45000,
-    "date": "14 Mayıs 2026",
+    "date": "17 Ekim 2026",
     "city": "Manisa",
     "district": "Turgutlu",
     "neighborhood": "Acarlar Mah.",
-    "locationDisplay": "Turgutlu, Acarlar Mah.",
+    "locationDisplay": "Turgutlu, Acarlar Mah. (Atatürk Bulvarı)",
     "m2": "240 m²",
     "rooms": "5+1",
-    "floor": "",
+    "floor": "2. Kat",
     "specs": {
-      "İlan No": "45750290",
+      "İlan No": "595551",
       "Brüt m²": "240 m²",
+      "Net m²": "215 m²",
       "Oda Sayısı": "5+1",
+      "Bina Yaşı": "11-15 Yıl",
+      "Bulunduğu Kat": "2. Kat (Ara Kat)",
+      "Kat Sayısı": "5 Katlı",
+      "Isıtma": "Doğalgaz (Kombi)",
+      "Banyo Sayısı": "2",
+      "Balkon": "Geniş Bulvar Balkonu",
+      "Kullanım Amacı": "Ofis / Konut / Muayenehane / Şirket Merkezi",
       "Tapu Durumu": "Kat İrtifakı",
-      "Güncelleme Tarihi": "26 Haziran 26"
+      "3D Ev Turu": "3D Vektörel Kat Planı & Oda Turu Mevcut"
     },
     "features": [
-      "Doğa",
-      "Şehir",
-      "WC"
+      "3D Vektörel Ev Turu",
+      "Atatürk Bulvarı Cepheli",
+      "240 m² Geniş Kullanım",
+      "5+1 Oda Mimarisi",
+      "Doğalgaz Kombi",
+      "Çift WC & Banyo",
+      "Balkon / Teras",
+      "Parke Zemin",
+      "Asansör",
+      "Çelik Kapı",
+      "Ofis & Konut Uygun",
+      "Ulaşıma & Çarşıya Sıfır"
     ],
-    "description": "ERYILMAZ EMLAK'TAN\nMANİSA TURGUTLU\nATATÜRK BULVARININ EN GÜZEL YERİNDE\nDİLEYEN 2 OFİS OLARAK KULLANABİLİR.\n240 M2 ZEMİN ÜSTÜ GENİŞ CEPHELİDİR.\nAYRINTILAR İÇİN ARAYINIZ.\nERYILMAZ EMLAK&GAYRİMENKUL.",
+    "description": "ERYILMAZ EMLAK & GAYRİMENKUL GÜVENCESİYLE\nMANİSA TURGUTLU ATATÜRK BULVARININ EN PRESTİJLİ VE MERKEZİ LOKASYONUNDA\n\nBu ilanı sayfamızdaki interaktif 3D Vektörel Ev Turu ile inceleyebilir, odalar arasında tek tıkla gezerek evin tüm açılarını keşfedebilirsiniz.\n\nÖNE ÇIKAN DETAYLAR:\n• 240 m² Brüt, 215 m² Net kullanım alanı\n• 5+1 ferah oda düzeni; dileyen 2 bağımsız ofis veya geniş aile evi olarak kullanabilir\n• Zemin üstü ara kat, Atatürk Bulvarı cepheli, tabela değeri son derece yüksek\n• Doğalgaz kombili, çift WC'li, mutfak ve servis hacmi tam donanımlı\n• Bankalar, noterler, çarşı, duraklar ve resmi kurumlara adım mesafesinde\n\nDETAYLI BİLGİ VE YER GÖSTERİMİ İÇİN:\nMuzaffer ERYILMAZ - 0 (554) 461 36 18\nOfis: 0 (236) 314 20 18",
     "images": [
-      "https://emlaksitem.com/upload/classified/98931/595551/big/7a9f44cb96a2f0d8038623855e067070.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/7a9f44cb96a2f0d8038623855e067070.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/389f65b11fcc5cb54904b3058872972a.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/59d6dd7f4205adfa98f33b3002185877.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/c7783824ef009654e60bbadb0bb677cf.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/62c9cc66db25b8f63859512a197df1ed.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/356d485a376cbbcb99922329726f7b04.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/db6856071e042cf15fd083f241a5e64d.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/dac19d919ae7ba4b37002b95e3f7dc2c.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/c0788a252a228f5da82e1b7d95c2561c.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/06867797d2c4e7e22ae8eecca89af122.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/acb2b26bc4c799bcb547d8fe70ff3a5b.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/27fe580a7664ab5d91114a0b48dcc29a.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/c4bf8ee740dd7a85e45ea006fb77b987.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/ef7885f3a226a2715411d8b5400eb26b.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/797f299cf19ab6ec8ab879e6d1a5093e.jpg",
-      "https://es1.mncdn.com/upload/classified/98931/595551/big/d53c006b4c5a974458160a87010a8cc6.jpg"
+      "assets/properties/595551/img_01.jpg",
+      "assets/properties/595551/img_02.jpg",
+      "assets/properties/595551/img_03.jpg",
+      "assets/properties/595551/img_04.jpg",
+      "assets/properties/595551/img_05.jpg",
+      "assets/properties/595551/img_06.jpg",
+      "assets/properties/595551/img_07.jpg",
+      "assets/properties/595551/img_08.jpg",
+      "assets/properties/595551/img_09.jpg",
+      "assets/properties/595551/img_10.jpg",
+      "assets/properties/595551/img_11.jpg",
+      "assets/properties/595551/img_12.jpg",
+      "assets/properties/595551/img_13.jpg",
+      "assets/properties/595551/img_14.jpg",
+      "assets/properties/595551/img_15.jpg",
+      "assets/properties/595551/img_16.jpg"
     ],
-    "mainImage": "https://emlaksitem.com/upload/classified/98931/595551/big/7a9f44cb96a2f0d8038623855e067070.jpg"
+    "mainImage": "assets/properties/595551/img_01.jpg",
+    "vectorRooms": [
+      {
+        "id": "salon",
+        "name": "Ana Salon & Bulvar Cephesi",
+        "area": "65 m²",
+        "image": "assets/properties/595551/img_02.jpg",
+        "images": ["assets/properties/595551/img_02.jpg", "assets/properties/595551/img_03.jpg", "assets/properties/595551/img_04.jpg"],
+        "desc": "Atatürk Bulvarı manzaralı, gün ışığı alan 65 m² geniş ana salon/çalışma salonu",
+        "zone": "salon"
+      },
+      {
+        "id": "yonetici",
+        "name": "Yönetici & Baş Çalışma Odası",
+        "area": "38 m²",
+        "image": "assets/properties/595551/img_05.jpg",
+        "images": ["assets/properties/595551/img_05.jpg", "assets/properties/595551/img_06.jpg"],
+        "desc": "Parke zeminli, geniş pencereli bağımsız makam/yönetici odası",
+        "zone": "yonetici"
+      },
+      {
+        "id": "toplanti",
+        "name": "Toplantı & Ofis Odası 1",
+        "area": "28 m²",
+        "image": "assets/properties/595551/img_07.jpg",
+        "images": ["assets/properties/595551/img_07.jpg", "assets/properties/595551/img_08.jpg"],
+        "desc": "Geniş toplantı masası ve ekip çalışması için ferah oda düzeni",
+        "zone": "toplanti"
+      },
+      {
+        "id": "calisma",
+        "name": "Çalışma Odası 2 (Arka Cephe)",
+        "area": "24 m²",
+        "image": "assets/properties/595551/img_09.jpg",
+        "images": ["assets/properties/595551/img_09.jpg"],
+        "desc": "Sessiz ve sakin çalışma alanı, arşiv veya özel ofis kullanımına uygun",
+        "zone": "calisma"
+      },
+      {
+        "id": "hol",
+        "name": "Giriş Holü & Karşılama Resepsiyon",
+        "area": "22 m²",
+        "image": "assets/properties/595551/img_01.jpg",
+        "images": ["assets/properties/595551/img_01.jpg"],
+        "desc": "Geniş çelik kapılı giriş, sekreterya ve bekleme alanı",
+        "zone": "hol"
+      },
+      {
+        "id": "mutfak",
+        "name": "Mutfak & Servis Alanı",
+        "area": "16 m²",
+        "image": "assets/properties/595551/img_10.jpg",
+        "images": ["assets/properties/595551/img_10.jpg", "assets/properties/595551/img_11.jpg"],
+        "desc": "Mermer tezgahlı, dolaplı, çay ocağı ve personel dinlenme alanı",
+        "zone": "mutfak"
+      },
+      {
+        "id": "banyo",
+        "name": "Banyo / WC & Islak Hacim",
+        "area": "12 m²",
+        "image": "assets/properties/595551/img_12.jpg",
+        "images": ["assets/properties/595551/img_12.jpg"],
+        "desc": "Seramik kaplama, hijyenik WC ve lavabo alanı",
+        "zone": "banyo"
+      },
+      {
+        "id": "balkon",
+        "name": "Bulvar Balkonu / Geniş Teras",
+        "area": "35 m²",
+        "image": "assets/properties/595551/img_13.jpg",
+        "images": ["assets/properties/595551/img_13.jpg", "assets/properties/595551/img_14.jpg", "assets/properties/595551/img_15.jpg", "assets/properties/595551/img_16.jpg"],
+        "desc": "Atatürk Bulvarı boydan boya manzaralı, açık hava dinlenme balkonu",
+        "zone": "balkon"
+      }
+    ]
   },
   {
     "id": "595711",
