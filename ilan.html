@@ -12,12 +12,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   
-  <!-- Leaflet CSS (Açık Kaynak, Telifsiz Harita Motoru) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Pannellum 360 Virtual Tour Viewer (Hafif & Hızlı 3D Motoru) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
 
-  <!-- Stylesheet (Arial, Özel Palet, Sıfır Gradyan) -->
-  <link rel="stylesheet" href="css/styles.css?v=4.0">
+  <!-- Stylesheet (Arial, Yeni Renk Paleti, Sıfır Gradyan) -->
+  <link rel="stylesheet" href="css/styles.css?v=5.0">
 </head>
 <body>
 
@@ -90,326 +90,283 @@
         <span class="active" id="bc-title">İlan</span>
       </nav>
 
-      <!-- ==========================================================================
-           YAN YANA HERO BÖLÜMÜ: FOTOĞRAFLAR + DETAYLAR
-           Fotoğraflar tüm ekranı kaplamaz; kullanıcı fiyat ve özellikleri anında görür!
-           ========================================================================== -->
-      <section class="detail-hero-grid">
-        
-        <!-- SOL KOLON: MEDYA & 3D VEKTÖREL ALAN -->
-        <div class="detail-media-column">
-          <!-- Sekme Başlıkları -->
-          <div class="media-tabs-bar">
-            <button class="media-tab-btn active" id="tab-btn-photos">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              Fotoğraf Galerisi (<span id="photo-total-count">0</span>)
-            </button>
-            <button class="media-tab-btn" id="tab-btn-3d" style="display:none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-              3D Vektörel Ev Turu
-            </button>
+      <!-- İlan Başlık & Fiyat Alanı -->
+      <section class="detail-header-card">
+        <div class="detail-header-left">
+          <div class="detail-badges-list">
+            <span id="detail-status-badge" class="badge-status-pill badge-satilik">Satılık</span>
+            <span id="detail-category-badge" class="badge-type-pill">Daire</span>
+            <span id="detail-id-pill" class="badge-id-pill">İlan No: -</span>
+            <span id="detail-3d-badge" class="badge-3d-pulsing" style="display: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              3D Sanal Tur Mevcut
+            </span>
           </div>
 
-          <!-- Fotoğraf Sahnesi -->
-          <div class="photo-viewport-wrap" id="view-photos-wrap">
-            <div class="main-photo-stage">
-              <img id="detail-main-img" src="" alt="İlan Fotoğrafı">
-              <div class="stage-counter" id="photo-counter">1 / 1</div>
-              <button class="stage-arrow-btn prev" id="btn-photo-prev" title="Önceki Fotoğraf">❮</button>
-              <button class="stage-arrow-btn next" id="btn-photo-next" title="Sonraki Fotoğraf">❯</button>
-            </div>
-            <!-- Küçük Resimler Şeridi -->
-            <div class="thumbs-strip-scroll" id="photo-thumbs-strip"></div>
+          <h1 class="detail-main-title" id="detail-title">İlan Yükleniyor...</h1>
+          
+          <div class="detail-loc-row" id="detail-loc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Manisa, Turgutlu</span>
           </div>
+        </div>
 
-          <!-- 3D Vektörel Ev Turu Sahnesi (Yalnızca destekleyen ilanlarda aktif) -->
-          <div class="vector-3d-wrapper" id="view-3d-wrap" style="display:none;">
-            <div class="vector-3d-toolbar">
-              <div class="vector-3d-toolbar-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                240 m² 5+1 Vektörel Kat Planı & Oda Gezisi
-              </div>
-              <div class="vector-3d-controls">
-                <button class="control-btn active" id="btn-persp-iso">3D İzometrik</button>
-                <button class="control-btn" id="btn-persp-top">Kuşbakışı Plan</button>
-                <button class="control-btn" id="btn-persp-photo">Oda Görseli</button>
-              </div>
-            </div>
-
-            <!-- İnteraktif SVG Sahnesi -->
-            <div class="vector-stage-container" id="vector-stage-box">
-              <svg id="isometric-svg-map" class="isometric-svg-canvas" viewBox="0 0 760 380">
-                <!-- Temel Zemin Izgarası -->
-                <rect x="20" y="20" width="720" height="340" rx="10" fill="#FAF7F2" stroke="#D2C4B4" stroke-width="2"/>
-                
-                <!-- Oda 1: Geniş Bulvar Balkonu / Teras (35 m²) -->
-                <polygon id="room-poly-balkon" class="room-polygon balkon" points="40,35 720,35 720,85 40,85" />
-                <text x="380" y="65" text-anchor="middle" font-size="12" font-weight="bold" fill="#1F2937">🌿 BULVAR BALKONU / TERAS (35 m²)</text>
-
-                <!-- Oda 2: Ana Salon (Bulvar Cepheli 65 m²) -->
-                <polygon id="room-poly-salon" class="room-polygon salon active-room" points="40,95 380,95 380,240 40,240" />
-                <text x="210" y="155" text-anchor="middle" font-size="14" font-weight="bold" fill="#1F2937">🛋️ ANA SALON</text>
-                <text x="210" y="175" text-anchor="middle" font-size="11" fill="#4B5563">65 m² • Bulvar Cepheli</text>
-
-                <!-- Oda 3: Yönetici & Baş Çalışma Odası (38 m²) -->
-                <polygon id="room-poly-yonetici" class="room-polygon yonetici" points="390,95 560,95 560,240 390,240" />
-                <text x="475" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#1F2937">👔 YÖNETİCİ ODASI</text>
-                <text x="475" y="175" text-anchor="middle" font-size="11" fill="#4B5563">38 m² • Parke Zemin</text>
-
-                <!-- Oda 4: Toplantı / Ofis Odası 1 (28 m²) -->
-                <polygon id="room-poly-toplanti" class="room-polygon toplanti" points="570,95 720,95 720,240 570,240" />
-                <text x="645" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#1F2937">👥 TOPLANTI ODASI</text>
-                <text x="645" y="175" text-anchor="middle" font-size="11" fill="#4B5563">28 m²</text>
-
-                <!-- Oda 5: Banyo & WC Islak Hacim (12 m²) -->
-                <polygon id="room-poly-banyo" class="room-polygon banyo" points="40,250 160,250 160,345 40,345" />
-                <text x="100" y="295" text-anchor="middle" font-size="11" font-weight="bold" fill="#1F2937">🚿 BANYO / WC</text>
-                <text x="100" y="315" text-anchor="middle" font-size="10" fill="#6B7280">12 m²</text>
-
-                <!-- Oda 6: Mutfak & Servis Alanı (16 m²) -->
-                <polygon id="room-poly-mutfak" class="room-polygon mutfak" points="170,250 310,250 310,345 170,345" />
-                <text x="240" y="295" text-anchor="middle" font-size="11" font-weight="bold" fill="#1F2937">☕ MUTFAK</text>
-                <text x="240" y="315" text-anchor="middle" font-size="10" fill="#6B7280">16 m² • Çay Servis</text>
-
-                <!-- Oda 7: Giriş Holü & Resepsiyon (22 m²) -->
-                <polygon id="room-poly-hol" class="room-polygon hol" points="320,250 520,250 520,345 320,345" />
-                <text x="420" y="295" text-anchor="middle" font-size="12" font-weight="bold" fill="#1F2937">🚪 GİRİŞ & HOL</text>
-                <text x="420" y="315" text-anchor="middle" font-size="10" fill="#6B7280">22 m² • Karşılama</text>
-
-                <!-- Oda 8: İkinci Çalışma Odası (24 m²) -->
-                <polygon id="room-poly-calisma" class="room-polygon calisma" points="530,250 720,250 720,345 530,345" />
-                <text x="625" y="295" text-anchor="middle" font-size="12" font-weight="bold" fill="#1F2937">📁 ÇALIŞMA ODASI 2</text>
-                <text x="625" y="315" text-anchor="middle" font-size="10" fill="#6B7280">24 m² • Arka Cephe</text>
-
-                <!-- Kamera Noktaları (Pulsing Vector Pins) -->
-                <g class="room-hotspot" data-room="salon" transform="translate(210, 120)">
-                  <circle r="14" fill="#81A6C6" opacity="0.35"/>
-                  <circle r="8" fill="#81A6C6" stroke="#FFFFFF" stroke-width="2"/>
-                </g>
-                <g class="room-hotspot" data-room="yonetici" transform="translate(475, 120)">
-                  <circle r="14" fill="#81A6C6" opacity="0.35"/>
-                  <circle r="8" fill="#81A6C6" stroke="#FFFFFF" stroke-width="2"/>
-                </g>
-                <g class="room-hotspot" data-room="toplanti" transform="translate(645, 120)">
-                  <circle r="14" fill="#81A6C6" opacity="0.35"/>
-                  <circle r="8" fill="#81A6C6" stroke="#FFFFFF" stroke-width="2"/>
-                </g>
-                <g class="room-hotspot" data-room="balkon" transform="translate(380, 55)">
-                  <circle r="14" fill="#81A6C6" opacity="0.35"/>
-                  <circle r="8" fill="#81A6C6" stroke="#FFFFFF" stroke-width="2"/>
-                </g>
+        <div class="detail-header-right">
+          <div class="detail-price-text" id="detail-price">0 TL</div>
+          <div class="detail-quick-action-btns">
+            <a id="top-wa-btn" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
               </svg>
+              WhatsApp'tan Bilgi Al
+            </a>
+            <a href="tel:05544613618" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              Hemen Ara
+            </a>
+          </div>
+        </div>
+      </section>
 
-              <!-- Oda Gerçek Fotoğrafı Katmanı (Tıklanan odanın fotoğrafı) -->
-              <div id="room-photo-overlay" style="display:none; position:absolute; inset:0; background:#000; align-items:center; justify-content:center;">
-                <img id="room-photo-img" src="" alt="Oda Fotoğrafı" style="max-width:100%; max-height:100%; object-fit:contain;">
-                <button id="btn-close-room-photo" style="position:absolute; top:10px; right:10px; background:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:12px;">✕ Kapat & Plana Dön</button>
-              </div>
+      <!-- MEDYA ALANI (Görseller & 3D Sanal Tur Sekmeleri) -->
+      <section class="detail-media-section">
+        
+        <!-- Eğer ilanda 3D tur varsa sekmeler görünür -->
+        <div class="media-tabs-bar" id="media-tabs-bar" style="display: none;">
+          <button class="media-tab-btn active" id="tab-btn-photos" data-tab="photos">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            Fotoğraf Galerisi (<span id="photo-tab-count">0</span>)
+          </button>
+          <button class="media-tab-btn" id="tab-btn-3d" data-tab="3d">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            🏡 3D Sanal Ev Turu (360° Etkileşimli)
+          </button>
+        </div>
+
+        <!-- 1. GÖRSEL GALERİSİ GÖRÜNÜMÜ -->
+        <div class="media-view-pane active" id="pane-photos">
+          <div class="detail-gallery-theater" id="gallery-theater-stage">
+            <button class="gallery-nav-btn gallery-prev" id="gallery-prev-btn" aria-label="Önceki">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            
+            <img id="detail-main-img" class="detail-main-img" src="" alt="İlan Fotoğrafı" title="Tam ekran büyütmek için tıklayın">
+            
+            <button class="gallery-nav-btn gallery-next" id="gallery-next-btn" aria-label="Sonraki">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <button class="gallery-fullscreen-badge" id="btn-fullscreen-trigger">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              <span>Tam Ekran Görüntüle</span>
+            </button>
+
+            <div class="gallery-counter" id="detail-gallery-counter">1 / 1</div>
+          </div>
+
+          <div class="gallery-thumbs" id="detail-gallery-thumbs"></div>
+        </div>
+
+        <!-- 2. 3D SANAL EV TURU GÖRÜNÜMÜ (360 PANORAMA) -->
+        <div class="media-view-pane" id="pane-3d">
+          <div class="tour-container-card">
+            <!-- Oda Seçim Butonları -->
+            <div class="tour-rooms-nav" id="tour-rooms-nav"></div>
+
+            <!-- Pannellum 360 Sahnesi -->
+            <div id="panorama-viewer" class="panorama-viewer-box"></div>
+
+            <div class="tour-help-text">
+              💡 <strong>Nasıl Kullanılır:</strong> Fareyle veya parmağınızla görüntüyü 360° döndürün, tekerlekle yakınlaştırın. Yukarıdaki butonlardan farklı odalara geçebilirsiniz.
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- İLAN DETAY VE BİLGİ ALANI (İki Sütunlu Düzen) -->
+      <section class="detail-content-layout">
+        
+        <!-- Sol Sütun: Özellikler, Açıklama, Etiketler -->
+        <div class="detail-left-column">
+          
+          <!-- Hızlı Özet Çipleri -->
+          <div class="modal-quick-chips-bar" id="detail-quick-chips" style="margin-top: 0;"></div>
+
+          <!-- Teknik Özellikler Tablosu -->
+          <div class="detail-box">
+            <h2 class="section-heading">İlan Özellikleri & Bilgileri</h2>
+            <div class="modal-specs-grid" id="detail-specs-grid"></div>
+          </div>
+
+          <!-- İlan Açıklaması -->
+          <div class="detail-box">
+            <h2 class="section-heading">Detaylı Açıklama</h2>
+            <div class="modal-desc-card" style="background: transparent; border: none; padding: 0;">
+              <p class="modal-desc-text" id="detail-desc"></p>
+            </div>
+          </div>
+
+          <!-- Nitelikler / Donanımlar -->
+          <div class="detail-box" id="box-features">
+            <h2 class="section-heading">Öne Çıkan Nitelikler & Donanımlar</h2>
+            <div class="modal-tags-list" id="detail-features-list"></div>
+          </div>
+
+          <!-- Konum & Mahalle Bilgisi -->
+          <div class="detail-box">
+            <h2 class="section-heading">Konum & Çevre Bilgisi</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              Bu gayrimenkul <strong>Manisa ili, Turgutlu ilçesi</strong> sınırları içerisinde yer almaktadır. Ayrıntılı ada/parsel veya yer gösterimi için randevu alabilirsiniz.
+            </p>
+            <a id="btn-maps-search" href="https://maps.google.com/?q=Turgutlu+Manisa" target="_blank" rel="noopener" class="btn btn-outline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+              Google Haritalar'da Turgutlu'yu Gör
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Sağ Sütun: Yapışkan (Sticky) Danışman & Aksiyon Kartı -->
+        <aside class="detail-right-column">
+          <div class="sticky-contact-card">
+            <div class="sticky-price-label">Talep Edilen Fiyat</div>
+            <div class="sticky-price-val" id="sticky-price">0 TL</div>
+
+            <div class="sticky-action-buttons">
+              <a id="side-wa-btn" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp" style="width: 100%;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                </svg>
+                WhatsApp'tan Yaz
+              </a>
+              <a href="tel:05544613618" class="btn btn-primary" style="width: 100%;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                Danışmanı Ara
+              </a>
             </div>
 
-            <!-- Seçili Oda Bilgi Kartı -->
-            <div class="active-room-viewcard">
-              <div class="room-view-left">
-                <img id="active-room-thumb" src="assets/properties/595551/img_02.jpg" class="room-thumb-preview" alt="Önizleme">
+            <!-- Danışman Bilgileri -->
+            <div class="advisor-box" style="margin-top: 1.5rem; border: none; padding: 0; box-shadow: none;">
+              <div class="advisor-header">
+                <div class="advisor-avatar">ME</div>
                 <div>
-                  <div class="room-meta-title" id="active-room-name">Ana Salon & Bulvar Cephesi (65 m²)</div>
-                  <div class="room-meta-desc" id="active-room-desc">Atatürk Bulvarı manzaralı, gün ışığı alan 65 m² geniş ana salon</div>
+                  <div class="advisor-name">Muzaffer ERYILMAZ</div>
+                  <div class="advisor-role">Yetkili Gayrimenkul Danışmanı</div>
+                  <div class="advisor-doc">Yetki Belgesi: <strong>4500306</strong></div>
                 </div>
               </div>
-              <div class="room-view-actions">
-                <button class="btn btn-outline btn-sm" id="btn-inspect-room-photo">📸 Fotoğrafı Aç</button>
-                <button class="btn btn-outline btn-sm" id="btn-prev-room">◀ Önceki</button>
-                <button class="btn btn-primary btn-sm" id="btn-next-room">Sonraki ▶</button>
+              <div class="advisor-phones" style="margin-bottom: 0.75rem;">
+                <a href="tel:05544613618" class="btn btn-outline btn-sm">📞 0 (554) 461 36 18</a>
+                <a href="tel:02363142018" class="btn btn-outline btn-sm">☎️ 0 (236) 314 20 18</a>
               </div>
             </div>
 
-            <!-- Hızlı Oda Seçim Butonları -->
-            <div class="vector-rooms-pills" id="vector-pills-list"></div>
+            <button id="btn-share-page" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              İlanı Paylaş
+            </button>
           </div>
-        </div>
+        </aside>
 
-        <!-- SAĞ KOLON: FİYAT, DETAYLAR, İLETİŞİM VE DANIŞMAN -->
-        <div class="detail-summary-column">
-          <div class="detail-summary-card">
-            <div class="summary-top-row">
-              <div class="summary-price" id="detail-price">-- TL</div>
-              <div class="summary-status-badge" id="detail-status">--</div>
-            </div>
-            
-            <h1 class="summary-title" id="detail-title">İlan Yükleniyor...</h1>
-            <div class="summary-location" id="detail-location">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <span>--</span>
-            </div>
-
-            <!-- Aksiyon Butonları (Kullanıcı tek tıkla ulaşabilsin) -->
-            <div class="summary-actions-grid">
-              <a id="btn-detail-wa" href="https://wa.me/905544613618" target="_blank" rel="noopener" class="btn-action-wa">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                WhatsApp Bilgi Al
-              </a>
-              <a href="tel:05544613618" class="btn-action-call">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                0 (554) 461 36 18
-              </a>
-            </div>
-
-            <!-- Temel Özellikler Özeti (Yan yana 2 sütunlu sade kutu) -->
-            <div class="quick-specs-box">
-              <div class="specs-header-label">Öne Çıkan Özellikler</div>
-              <div class="specs-two-col" id="quick-specs-container">
-                <!-- Dinamik doldurulur -->
-              </div>
-            </div>
-
-            <!-- Danışman Bilgisi -->
-            <div class="agent-mini-card">
-              <div class="agent-avatar-box">ME</div>
-              <div class="agent-info-col">
-                <div class="agent-name">Muzaffer ERYILMAZ</div>
-                <div class="agent-role">Sorumlu Emlak Danışmanı • Yetki No: 4500306</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <!-- ==========================================================================
-           ORTA BÖLÜM: DETAYLI AÇIKLAMA VE TÜM ÖZELLİKLER
-           ========================================================================== -->
-      <section class="detail-content-grid">
-        <div class="content-col-main">
-          <!-- İlan Açıklaması -->
-          <div class="content-box">
-            <h2 class="box-heading">İlan Açıklaması</h2>
-            <div class="desc-text" id="detail-desc">Açıklama yükleniyor...</div>
-          </div>
-
-          <!-- İlan Donanımları & Özellikler -->
-          <div class="content-box">
-            <h2 class="box-heading">Gayrimenkul Özellikleri</h2>
-            <div class="features-tags-wrap" id="detail-features"></div>
-          </div>
-        </div>
-
-        <div class="content-col-side">
-          <!-- Kurumsal Güven Kutusu -->
-          <div class="content-box">
-            <h3 class="box-heading">Kurumsal Güvence</h3>
-            <p style="font-size:0.875rem; color:var(--text-secondary); line-height:1.6; margin-bottom:1rem;">
-              Eryılmaz Gayrimenkul, T.C. Ticaret Bakanlığı <strong>4500306</strong> numaralı Taşınmaz Ticareti Yetki Belgesi ile hizmet veren lisanslı bir emlak kuruluşudur.
-            </p>
-            <div style="font-size:0.8125rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.4rem;">
-              <div>📍 Ofis: Turgutlu / MANİSA</div>
-              <div>📞 Tel: 0 (236) 314 20 18</div>
-              <div>📱 GSM: 0 (554) 461 36 18</div>
-              <div>🕒 Çalışma Saatleri: 09:00 - 19:00</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==========================================================================
-           KONUM BİLGİSİ & ÇEVRESEL İMKANLAR BÖLÜMÜ (Ek2 Özgün Uygulama)
-           Telif haklarına tabi olmayan açık kaynak Leaflet haritası & Turgutlu POI
-           ========================================================================== -->
-      <section class="location-section-card">
-        <div class="location-header">
-          <div class="location-title-row">
-            <h2 class="location-main-title">Konum Bilgisi</h2>
-            <div class="location-sub-address">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <span id="map-address-label">Manisa, Turgutlu, Acarlar Mahallesi (Atatürk Bulvarı)</span>
-            </div>
-          </div>
-          <div style="font-size:0.8125rem; font-weight:bold; color:var(--c-blue-primary);">
-            📍 Turgutlu Merkez Bölgesi
-          </div>
-        </div>
-
-        <!-- Harita Gövdesi -->
-        <div class="map-canvas-container">
-          <div id="turgutlu-leaflet-map"></div>
-        </div>
-
-        <!-- Ek2 Referanslı Kategori Filtre Butonları -->
-        <div class="poi-filter-bar">
-          <button class="poi-filter-btn active" data-poi-category="all">
-            Tümü
-          </button>
-          <button class="poi-filter-btn" data-poi-category="ulasim">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg>
-            Ulaşım
-          </button>
-          <button class="poi-filter-btn" data-poi-category="saglik">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            Sağlık Kurumları
-          </button>
-          <button class="poi-filter-btn" data-poi-category="egitim">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            Eğitim Kurumları
-          </button>
-          <button class="poi-filter-btn" data-poi-category="alisveris">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            Alışveriş
-          </button>
-        </div>
-
-        <!-- Yakındaki Noktaların Mesafe Listesi -->
-        <div class="poi-items-list" id="poi-items-container">
-          <!-- Dinamik doldurulur -->
-        </div>
-      </section>
-
-      <!-- ==========================================================================
-           BENZER İLANLAR BÖLÜMÜ
-           ========================================================================== -->
-      <section class="related-listings-section">
-        <h2 class="related-title">İlgilenebileceğiniz Diğer Portföyler</h2>
-        <div class="listings-grid" id="related-listings-grid"></div>
+      <!-- BENZER İLANLAR BÖLÜMÜ -->
+      <section class="similar-listings-section">
+        <h2 class="section-heading">İlginizi Çekebilecek Benzer İlanlar</h2>
+        <div class="listings-grid" id="similar-listings-grid" style="margin-bottom: 0;"></div>
       </section>
 
     </div>
   </main>
 
-  <!-- 4. Footer -->
+  <!-- %100 TAM EKRAN LIGHTBOX -->
+  <div class="lightbox-fullscreen" id="lightbox-fullscreen" role="dialog" aria-modal="true">
+    <div class="lightbox-top-bar">
+      <div class="lightbox-title-text" id="lightbox-title-text">Fotoğraf Galerisi</div>
+      <div class="lightbox-counter-badge" id="lightbox-counter">1 / 1</div>
+      <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Tam Ekrandan Çık">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="lightbox-viewport">
+      <button class="lightbox-nav-btn lightbox-prev" id="lightbox-prev-btn" aria-label="Önceki">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="lightbox-img-wrapper">
+        <img id="lightbox-main-img" class="lightbox-main-img" src="" alt="Tam Ekran Fotoğraf">
+      </div>
+
+      <button class="lightbox-nav-btn lightbox-next" id="lightbox-next-btn" aria-label="Sonraki">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <div class="lightbox-bottom-bar">
+      <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="brand-name">ERYILMAZ <span>GAYRİMENKUL</span></div>
-          <p class="footer-col-desc">
-            Manisa Turgutlu ve çevresinde satılık, kiralık konut, arsa, ticari gayrimenkul ve hobi bahçesi portföyümüzle 8 yıldır güvenilir danışmanlık sağlıyoruz.
+          <div class="footer-brand">ERYILMAZ <span>GAYRİMENKUL</span></div>
+          <p style="line-height: 1.6; margin-bottom: 1rem;">
+            Turgutlu'nun öncü gayrimenkul danışmanlığı. Doğru fiyat, güvenilir portföy ve müşteri memnuniyeti odaklı hizmet.
+          </p>
+          <p style="font-size: 0.8125rem;">
+            Taşınmaz Ticareti Yetki Belgesi No: <strong>4500306</strong>
           </p>
         </div>
-        <div>
-          <div class="footer-heading">Hızlı Erişim</div>
+
+        <div class="footer-col">
+          <h4>Hızlı Bağlantılar</h4>
           <ul class="footer-links">
             <li><a href="index.html">Ana Sayfa</a></li>
             <li><a href="index.html#ilanlar">Tüm İlanlar</a></li>
-            <li><a href="ilan.html?id=595551">3D Ev Turu (595551)</a></li>
+            <li><a href="index.html#hakkimizda">Hakkımızda</a></li>
             <li><a href="index.html#iletisim">İletişim</a></li>
           </ul>
         </div>
-        <div>
-          <div class="footer-heading">İletişim & Ofis</div>
+
+        <div class="footer-col">
+          <h4>İletişim & Ofis</h4>
           <ul class="footer-links">
-            <li>Yetki No: 4500306</li>
-            <li>GSM: 0 (554) 461 36 18</li>
-            <li>Ofis: 0 (236) 314 20 18</li>
-            <li>Turgutlu / MANİSA</li>
+            <li><a href="tel:05544613618">0 (554) 461 36 18</a></li>
+            <li><a href="tel:02363142018">0 (236) 314 20 18</a></li>
+            <li><a href="tel:05462032302">0 (546) 203 23 02</a></li>
+            <li><span>Manisa / Turgutlu</span></li>
           </ul>
         </div>
       </div>
+
       <div class="footer-bottom">
-        <div>© 2026 ERYILMAZ GAYRİMENKUL - Tüm Hakları Saklıdır.</div>
-        <div>Taşınmaz Ticareti Yetki Belge No: 4500306</div>
+        <div>&copy; 2026 ERYILMAZ GAYRİMENKUL - Tüm Hakları Saklıdır.</div>
+        <div>Turgutlu / Manisa Gayrimenkul Portföyü</div>
       </div>
     </div>
   </footer>
 
-  <!-- Veri ve Sayfa Mantığı -->
+  <!-- Yüzen Hızlı Butonlar -->
+  <div class="floating-actions">
+    <a id="float-wa-link" href="https://wa.me/905544613618" target="_blank" rel="noopener" class="floating-btn float-wa" title="WhatsApp ile İletişim">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+      </svg>
+    </a>
+    <a href="tel:05544613618" class="floating-btn float-phone" title="Hemen Ara">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+    </a>
+  </div>
+
+  <div class="toast" id="toast">Bildirim</div>
+
+  <!-- JavaScript Kodları -->
   <script src="js/data.js"></script>
-  <script src="js/detail.js?v=4.0"></script>
+  <script src="js/detail.js?v=2.0"></script>
 </body>
 </html>
