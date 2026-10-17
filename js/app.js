@@ -1,10 +1,9 @@
 /**
- * Eryılmaz Gayrimenkul - Ana Uygulama Mantığı
- * Kusursuz ortalanmış galeri, sabit üst bilgi çubuğu ve %100 tam ekran Lightbox desteği.
+ * Eryılmaz Gayrimenkul - Ana Sayfa Mantığı (index.html)
+ * Filtreleme, arama ve doğrudan ilan detay sayfasına (ilan.html?id=...) yönlendirme.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Veri Kontrolü
   const listings = window.LISTINGS_DATA || [];
   const company = window.COMPANY_DATA || {};
 
@@ -14,10 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     category: 'all',        // 'all', 'Daire / Konut', 'Arsa & Bahçe', 'İşyeri & Ticari', 'Tarla & Arazi'
     neighborhood: 'all',    // Mahalle filtresi
     searchQuery: '',        // Arama metni
-    sortBy: 'default',      // 'default', 'price-asc', 'price-desc', 'id-desc'
-    currentModalItem: null,
-    currentImageIndex: 0,
-    isLightboxOpen: false
+    sortBy: 'default'       // 'default', 'price-asc', 'price-desc', 'id-desc'
   };
 
   // DOM Elemanları
@@ -29,43 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetBtn = document.getElementById('btn-reset-filters');
   const tabButtons = document.querySelectorAll('.tab-btn');
   const categoryPills = document.querySelectorAll('.category-pill');
-
-  // Modal DOM Elemanları
-  const modalOverlay = document.getElementById('modal-overlay');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const galleryStage = document.getElementById('gallery-stage');
-  const galleryMainImg = document.getElementById('gallery-main-img');
-  const galleryThumbs = document.getElementById('gallery-thumbs');
-  const galleryCounter = document.getElementById('gallery-counter');
-  const galleryPrevBtn = document.getElementById('gallery-prev-btn');
-  const galleryNextBtn = document.getElementById('gallery-next-btn');
-  const btnOpenLightbox = document.getElementById('btn-open-lightbox');
-
-  const modalStatusBadge = document.getElementById('modal-status-badge');
-  const modalCategoryBadge = document.getElementById('modal-category-badge');
-  const modalIdPill = document.getElementById('modal-id-pill');
-  const modalPrice = document.getElementById('modal-price');
-  const modalTitle = document.getElementById('modal-title');
-  const modalLoc = document.getElementById('modal-loc');
-  const modalQuickChips = document.getElementById('modal-quick-chips');
-  const modalSpecsGrid = document.getElementById('modal-specs-grid');
-  const modalDesc = document.getElementById('modal-desc');
-  const modalFeatures = document.getElementById('modal-features');
-  const modalFeaturesTitle = document.getElementById('modal-features-title');
-  const modalWaBtn = document.getElementById('modal-wa-btn');
-  const modalCallBtn = document.getElementById('modal-call-btn');
-  const modalShareBtn = document.getElementById('modal-share-btn');
-  const toastEl = document.getElementById('toast');
-
-  // Lightbox DOM Elemanları
-  const lightboxFullscreen = document.getElementById('lightbox-fullscreen');
-  const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
-  const lightboxTitleText = document.getElementById('lightbox-title-text');
-  const lightboxCounter = document.getElementById('lightbox-counter');
-  const lightboxMainImg = document.getElementById('lightbox-main-img');
-  const lightboxPrevBtn = document.getElementById('lightbox-prev-btn');
-  const lightboxNextBtn = document.getElementById('lightbox-next-btn');
-  const lightboxThumbs = document.getElementById('lightbox-thumbs');
 
   // 1. Mahalle Seçeneklerini Doldur
   function populateNeighborhoods() {
@@ -132,18 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
 
+    // Vitrin ilanını (3D Tour) her zaman en başta tut veya sıralamaya uygula
     if (state.sortBy === 'price-asc') {
       result.sort((a, b) => a.priceNum - b.priceNum);
     } else if (state.sortBy === 'price-desc') {
       result.sort((a, b) => b.priceNum - a.priceNum);
     } else if (state.sortBy === 'id-desc') {
       result.sort((a, b) => Number(b.id) - Number(a.id));
+    } else {
+      // Önerilen sıralamada featured (3D) olan en başta kalsın
+      result.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
     }
 
     return result;
   }
 
-  // 4. Kartları Ekrana Bas
+  // 4. Kartları Ekrana Bas (Her kart doğrudan ilan.html?id=... sayfasına gider)
   function renderListings() {
     const filtered = getFilteredListings();
 
@@ -175,13 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const badgeClass = isSatilik ? 'badge-satilik' : 'badge-kiralik';
       const imageCount = item.images && item.images.length ? item.images.length : 1;
       const mainImg = item.mainImage || 'assets/icons/favicon.svg';
+      const detailUrl = `ilan.html?id=${item.id}`;
 
       return `
-        <article class="listing-card" data-id="${item.id}">
-          <div class="card-img-wrap" onclick="window.openDetail('${item.id}')">
+        <article class="listing-card ${item.isFeatured ? 'featured-card' : ''}" data-id="${item.id}">
+          <a href="${detailUrl}" class="card-img-wrap">
             <img class="card-img" src="${mainImg}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.src='assets/icons/favicon.svg'">
             <span class="card-badge-status ${badgeClass}">${item.status}</span>
             <span class="card-badge-type">${item.category}</span>
+            ${item.has3DTour ? `
+              <span class="badge-3d-pulsing" style="position: absolute; bottom: 0.75rem; left: 0.75rem; z-index: 2;">
+                🏡 3D Sanal Tur
+              </span>
+            ` : ''}
             <span class="card-badge-photos">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -190,11 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
               </svg>
               ${imageCount}
             </span>
-          </div>
+          </a>
           <div class="card-body">
             <div class="card-price">${item.price}</div>
-            <h3 class="card-title" onclick="window.openDetail('${item.id}')" title="${escapeHtml(item.title)}">
-              ${escapeHtml(item.title)}
+            <h3 class="card-title">
+              <a href="${detailUrl}" title="${escapeHtml(item.title)}">
+                ${escapeHtml(item.title)}
+              </a>
             </h3>
             <div class="card-location">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -224,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
               ` : ''}
             </div>
             <div class="card-footer">
-              <button class="btn btn-outline btn-sm" onclick="window.openDetail('${item.id}')">
-                İlanı İncele
-              </button>
+              <a href="${detailUrl}" class="btn btn-outline btn-sm">
+                ${item.has3DTour ? '🏡 3D Tur & İncele' : 'İlanı İncele'}
+              </a>
               <a class="btn btn-whatsapp btn-sm" href="https://wa.me/${company.whatsapp || '905544613618'}?text=${encodeURIComponent('Merhaba Muzaffer Bey, ' + item.title + ' (İlan No: ' + item.id + ') hakkında bilgi alabilir miyim?')}" target="_blank" rel="noopener">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
@@ -240,268 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   }
 
-  // 5. İlan Detay Modalı
-  window.openDetail = function(id) {
-    const item = listings.find(i => String(i.id) === String(id));
-    if (!item) return;
-
-    state.currentModalItem = item;
-    state.currentImageIndex = 0;
-
-    // Fotoğraflar
-    const imgs = item.images && item.images.length > 0 ? item.images : [item.mainImage];
-    updateGallery(imgs, 0);
-
-    // Üst Bar Bilgileri (Sabit Başlık Çubuğu)
-    const isSatilik = item.status === 'Satılık';
-    modalStatusBadge.textContent = item.status;
-    modalStatusBadge.className = `badge-status-pill ${isSatilik ? 'badge-satilik' : 'badge-kiralik'}`;
-    modalCategoryBadge.textContent = item.category;
-    modalIdPill.textContent = `İlan No: ${item.id}`;
-
-    modalPrice.textContent = item.price;
-    modalTitle.textContent = item.title;
-    modalLoc.innerHTML = `
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-      <span>${escapeHtml(item.locationDisplay)}</span>
-    `;
-
-    // Hızlı Özet Çipleri
-    const quickChips = [];
-    if (item.m2) quickChips.push({ label: 'Alan', val: item.m2, icon: '📐' });
-    if (item.rooms) quickChips.push({ label: 'Oda Sayısı', val: item.rooms, icon: '🚪' });
-    if (item.floor) quickChips.push({ label: 'Bulunduğu Kat', val: `${item.floor}. Kat`, icon: '🏢' });
-    quickChips.push({ label: 'Durum', val: item.status, icon: '🏷️' });
-
-    modalQuickChips.innerHTML = quickChips.map(c => `
-      <div class="quick-chip-box">
-        <span>${c.icon}</span>
-        <span>${escapeHtml(c.val)}</span>
-      </div>
-    `).join('');
-
-    // Teknik Özellikler Izgarası
-    const specs = [
-      { label: 'İlan No', val: item.id },
-      { label: 'Kategori', val: item.category },
-      { label: 'Durum', val: item.status },
-      { label: 'Brüt m²', val: item.m2 || '-' },
-      { label: 'Oda Sayısı', val: item.rooms || '-' },
-      { label: 'Bulunduğu Kat', val: item.floor ? `${item.floor}. Kat` : '-' },
-      { label: 'İlan Tarihi', val: item.date || '-' }
-    ];
-
-    if (item.specs) {
-      Object.keys(item.specs).forEach(k => {
-        if (!['İlan No', 'Brüt m²', 'Oda Sayısı', 'Bulunduğu Kat', 'Güncelleme Tarihi'].includes(k)) {
-          specs.push({ label: k, val: item.specs[k] });
-        }
-      });
-    }
-
-    modalSpecsGrid.innerHTML = specs.map(s => `
-      <div class="spec-box">
-        <span class="spec-label">${escapeHtml(s.label)}</span>
-        <span class="spec-val">${escapeHtml(String(s.val))}</span>
-      </div>
-    `).join('');
-
-    // Açıklama
-    modalDesc.textContent = item.description || 'Detaylı bilgi için danışmanımızla iletişime geçiniz.';
-
-    // İlan Özellikleri (Etiketler)
-    if (item.features && item.features.length > 0) {
-      modalFeatures.innerHTML = item.features.map(f => `
-        <span class="modal-feature-pill">${escapeHtml(f)}</span>
-      `).join('');
-      modalFeatures.style.display = 'flex';
-      if (modalFeaturesTitle) modalFeaturesTitle.style.display = 'block';
-    } else {
-      modalFeatures.style.display = 'none';
-      if (modalFeaturesTitle) modalFeaturesTitle.style.display = 'none';
-    }
-
-    // Buton Eylemleri
-    const waText = encodeURIComponent(`Merhaba Muzaffer Bey, web sitenizdeki "${item.title}" (İlan No: ${item.id}) hakkında detaylı bilgi almak istiyorum.`);
-    modalWaBtn.href = `https://wa.me/${company.whatsapp || '905544613618'}?text=${waText}`;
-    modalCallBtn.href = `tel:${company.phoneGsmClean || '905544613618'}`;
-
-    // URL Hash Güncelle
-    window.location.hash = `ilan-${item.id}`;
-
-    // Modalı Göster
-    modalOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  // Galeri Güncelleme
-  function updateGallery(imgs, index) {
-    if (!imgs || imgs.length === 0) return;
-    state.currentImageIndex = index;
-
-    galleryMainImg.src = imgs[index];
-    galleryCounter.textContent = `${index + 1} / ${imgs.length}`;
-
-    // Thumbnails
-    if (galleryThumbs) {
-      galleryThumbs.innerHTML = imgs.map((src, i) => `
-        <div class="gallery-thumb-item ${i === index ? 'active' : ''}" onclick="window.selectGalleryImage(${i})">
-          <img src="${src}" alt="Önizleme ${i + 1}" loading="lazy">
-        </div>
-      `).join('');
-
-      const activeThumb = galleryThumbs.children[index];
-      if (activeThumb) {
-        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    }
-  }
-
-  window.selectGalleryImage = function(index) {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    updateGallery(imgs, index);
-  };
-
-  function nextGalleryImage() {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    let nextIdx = state.currentImageIndex + 1;
-    if (nextIdx >= imgs.length) nextIdx = 0;
-    updateGallery(imgs, nextIdx);
-  }
-
-  function prevGalleryImage() {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    let prevIdx = state.currentImageIndex - 1;
-    if (prevIdx < 0) prevIdx = imgs.length - 1;
-    updateGallery(imgs, prevIdx);
-  }
-
-  function closeModal() {
-    modalOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-    state.currentModalItem = null;
-    if (window.location.hash.startsWith('#ilan-')) {
-      history.replaceState(null, null, ' ');
-    }
-  }
-
-  // ================================================================
-  // 6. %100 EKRANI KAPLAYAN DEV LIGHTBOX (SİNEMA MODU)
-  // ================================================================
-  function openLightbox(index) {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    if (!imgs || imgs.length === 0) return;
-
-    state.isLightboxOpen = true;
-    updateLightbox(imgs, index !== undefined ? index : state.currentImageIndex);
-
-    lightboxTitleText.textContent = state.currentModalItem.title;
-    lightboxFullscreen.classList.add('active');
-  }
-
-  function closeLightbox() {
-    state.isLightboxOpen = false;
-    lightboxFullscreen.classList.remove('active');
-  }
-
-  function updateLightbox(imgs, index) {
-    state.currentImageIndex = index;
-    lightboxMainImg.src = imgs[index];
-    lightboxCounter.textContent = `${index + 1} / ${imgs.length}`;
-
-    if (lightboxThumbs) {
-      lightboxThumbs.innerHTML = imgs.map((src, i) => `
-        <div class="lightbox-thumb-item ${i === index ? 'active' : ''}" onclick="window.selectLightboxImage(${i})">
-          <img src="${src}" alt="Küçük Önizleme ${i + 1}" loading="lazy">
-        </div>
-      `).join('');
-
-      const activeThumb = lightboxThumbs.children[index];
-      if (activeThumb) {
-        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    }
-
-    updateGallery(imgs, index);
-  }
-
-  window.selectLightboxImage = function(index) {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    updateLightbox(imgs, index);
-  };
-
-  function nextLightboxImage() {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    let nextIdx = state.currentImageIndex + 1;
-    if (nextIdx >= imgs.length) nextIdx = 0;
-    updateLightbox(imgs, nextIdx);
-  }
-
-  function prevLightboxImage() {
-    if (!state.currentModalItem) return;
-    const imgs = state.currentModalItem.images || [state.currentModalItem.mainImage];
-    let prevIdx = state.currentImageIndex - 1;
-    if (prevIdx < 0) prevIdx = imgs.length - 1;
-    updateLightbox(imgs, prevIdx);
-  }
-
-  // Fotoğrafa tıklandığında veya Tam Ekran butonuna basıldığında
-  if (galleryStage) {
-    galleryStage.addEventListener('click', (e) => {
-      if (e.target.closest('.gallery-nav-btn')) return;
-      openLightbox(state.currentImageIndex);
-    });
-  }
-
-  if (btnOpenLightbox) {
-    btnOpenLightbox.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openLightbox(state.currentImageIndex);
-    });
-  }
-
-  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
-  if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', prevLightboxImage);
-  if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', nextLightboxImage);
-
-  // 7. Paylaşım Butonu
-  if (modalShareBtn) {
-    modalShareBtn.addEventListener('click', () => {
-      const shareUrl = window.location.href;
-      if (navigator.share) {
-        navigator.share({
-          title: state.currentModalItem ? state.currentModalItem.title : 'Eryılmaz Gayrimenkul',
-          url: shareUrl
-        }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          showToast('İlan bağlantısı panoya kopyalandı!');
-        }).catch(() => {
-          showToast('Bağlantı kopyalanamadı.');
-        });
-      }
-    });
-  }
-
-  function showToast(msg) {
-    if (!toastEl) return;
-    toastEl.textContent = msg;
-    toastEl.classList.add('show');
-    setTimeout(() => {
-      toastEl.classList.remove('show');
-    }, 2500);
-  }
-
-  // 8. Filtre Olay Dinleyicileri
+  // 5. Filtre Olay Dinleyicileri
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       tabButtons.forEach(b => b.classList.remove('active'));
@@ -565,42 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBtn.addEventListener('click', resetAllFilters);
   }
 
-  // Galeri Butonları
-  if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevGalleryImage(); });
-  if (galleryNextBtn) galleryNextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextGalleryImage(); });
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-  }
-
-  // Klavye Navigasyonu
-  document.addEventListener('keydown', (e) => {
-    if (state.isLightboxOpen) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') nextLightboxImage();
-      if (e.key === 'ArrowLeft') prevLightboxImage();
-      return;
-    }
-
-    if (modalOverlay.classList.contains('active')) {
-      if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowRight') nextGalleryImage();
-      if (e.key === 'ArrowLeft') prevGalleryImage();
-    }
-  });
-
-  // Hash ile doğrudan ilan açma desteği
-  function checkUrlHash() {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#ilan-')) {
-      const id = hash.replace('#ilan-', '');
-      window.openDetail(id);
-    }
-  }
-
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -615,5 +289,4 @@ document.addEventListener('DOMContentLoaded', () => {
   populateNeighborhoods();
   updateTabCounts();
   renderListings();
-  checkUrlHash();
 });

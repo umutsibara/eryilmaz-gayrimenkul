@@ -1446,3 +1446,283 @@ img {
   .lightbox-next { right: 0.5rem; width: 44px; height: 44px; }
   .lightbox-title-text { font-size: 0.85rem; }
 }
+
+/* ================================================================ */
+/* 9. ÖZEL İLAN DETAY SAYFASI (ilan.html) STILLERI                 */
+/* ================================================================ */
+.detail-page-container {
+  padding: 1.75rem 0 4rem;
+  background: var(--bg-body);
+}
+
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.breadcrumb-nav a {
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: var(--transition);
+}
+.breadcrumb-nav a:hover {
+  color: var(--accent);
+}
+.breadcrumb-nav .active {
+  color: var(--primary);
+  font-weight: 600;
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Üst Başlık Kartı */
+.detail-header-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+.detail-header-left {
+  flex: 1;
+  min-width: 0;
+}
+.detail-badges-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.badge-3d-pulsing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  animation: pulse3D 2s infinite;
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+}
+@keyframes pulse3D {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.detail-main-title {
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+.detail-loc-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.detail-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+.detail-price-text {
+  font-size: clamp(1.85rem, 3vw, 2.35rem);
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.03em;
+}
+.detail-quick-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Medya & 3D Sanal Tur Alanı */
+.detail-media-section {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.media-tabs-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+.media-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.35rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  background: #f1f5f9;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+.media-tab-btn:hover {
+  background: #e2e8f0;
+  color: var(--text-primary);
+}
+.media-tab-btn.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.media-view-pane {
+  display: none;
+}
+.media-view-pane.active {
+  display: block;
+}
+
+/* 3D Sanal Tur Görünümü */
+.tour-container-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.tour-rooms-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.tour-room-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+.tour-room-btn:hover {
+  background: #f1f5f9;
+  color: var(--text-primary);
+}
+.tour-room-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.panorama-viewer-box {
+  width: 100%;
+  height: 520px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+.tour-help-text {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  background: #f8fafc;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+/* İki Sütunlu Sayfa Düzeni */
+.detail-content-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2rem;
+  align-items: start;
+}
+.detail-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.detail-box {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Sağ Yapışkan Kart */
+.detail-right-column {
+  position: sticky;
+  top: 90px;
+}
+.sticky-contact-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+}
+.sticky-price-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.sticky-price-val {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.sticky-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Benzer İlanlar */
+.similar-listings-section {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 992px) {
+  .detail-header-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .detail-header-right {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .detail-content-layout {
+    grid-template-columns: 1fr;
+  }
+  .detail-right-column {
+    position: static;
+  }
+}

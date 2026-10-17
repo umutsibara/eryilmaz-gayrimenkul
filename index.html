@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=2.0">
+  <link rel="stylesheet" href="css/styles.css?v=3.0">
 </head>
 <body>
 
@@ -53,8 +53,7 @@
   <header class="site-header">
     <div class="container">
       <div class="header-inner">
-        <!-- Logo -->
-        <a href="#" class="brand-link">
+        <a href="index.html" class="brand-link">
           <img src="assets/img/eryilmaz-logo.jpg" alt="Eryılmaz Gayrimenkul" class="brand-logo-img" onerror="this.style.display='none'">
           <div class="brand-text-col">
             <div class="brand-name">ERYILMAZ <span>GAYRİMENKUL</span></div>
@@ -62,14 +61,12 @@
           </div>
         </a>
 
-        <!-- Menü -->
         <nav class="header-nav">
           <a href="#ilanlar">İlanlar</a>
           <a href="#hakkimizda">Kurumsal</a>
           <a href="#iletisim">İletişim</a>
         </nav>
 
-        <!-- Eylemler -->
         <div class="header-actions">
           <a href="tel:05544613618" class="btn btn-outline btn-sm">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -102,31 +99,27 @@
 
       <!-- Arama & Filtre Kartı -->
       <div class="filter-card" id="filtre">
-        <!-- Satılık / Kiralık / Tümü Sekmeleri -->
         <div class="filter-tabs">
           <button class="tab-btn active" data-status="all">
-            Tüm İlanlar <span class="badge-count" id="count-all">(40)</span>
+            Tüm İlanlar <span class="badge-count" id="count-all">(41)</span>
           </button>
           <button class="tab-btn" data-status="Satılık">
-            Satılık <span class="badge-count" id="count-satilik">(18)</span>
+            Satılık <span class="badge-count" id="count-satilik">(19)</span>
           </button>
           <button class="tab-btn" data-status="Kiralık">
             Kiralık <span class="badge-count" id="count-kiralik">(22)</span>
           </button>
         </div>
 
-        <!-- Filtre Izgarası -->
         <div class="filter-grid">
-          <!-- Arama Input -->
           <div class="form-group">
             <label class="form-label">Kelime ile Arama</label>
             <div class="input-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="search-input" class="form-input input-with-icon" placeholder="Örn: Seyirkent, 3+1, Ergenekon, Dükkan...">
+              <input type="text" id="search-input" class="form-input input-with-icon" placeholder="Örn: 3D Sanal Tur, Seyirkent, 3+1, Ergenekon...">
             </div>
           </div>
 
-          <!-- Mahalle -->
           <div class="form-group">
             <label class="form-label">Mahalle / Konum</label>
             <select id="neighborhood-select" class="form-select">
@@ -134,18 +127,16 @@
             </select>
           </div>
 
-          <!-- Sıralama -->
           <div class="form-group">
             <label class="form-label">Sıralama</label>
             <select id="sort-select" class="form-select">
-              <option value="default">Önerilen Sıralama</option>
+              <option value="default">Önerilen Sıralama (Vitrin İlk)</option>
               <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
               <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
               <option value="id-desc">En Yeni İlanlar</option>
             </select>
           </div>
 
-          <!-- Sıfırla -->
           <div class="form-group" style="justify-content: flex-end;">
             <button class="btn btn-outline" id="btn-reset-filters" title="Filtreleri Temizle">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v6h6"></path><path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path><path d="M21 22v-6h-6"></path><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path></svg>
@@ -154,7 +145,6 @@
           </div>
         </div>
 
-        <!-- Hızlı Kategori Seçimi -->
         <div class="quick-category-pills">
           <span class="quick-label">Kategori:</span>
           <button class="category-pill active" data-category="all">Tümü</button>
@@ -167,18 +157,16 @@
     </div>
   </section>
 
-  <!-- 4. İlanlar Listesi -->
+  <!-- 4. İlanlar Listesi (Doğrudan İlan Sayfasına Gider) -->
   <main class="container" id="ilanlar">
     <div class="results-bar">
       <div class="results-count" id="results-count">
-        <span>40</span> ilan listeleniyor
+        <span>41</span> ilan listeleniyor
       </div>
     </div>
 
     <!-- İlan Kartları Konteyneri -->
-    <div class="listings-grid" id="listings-container">
-      <!-- Dinamik olarak app.js tarafından doldurulacaktır -->
-    </div>
+    <div class="listings-grid" id="listings-container"></div>
   </main>
 
   <!-- 5. Kurumsal & Güven Bölümü -->
@@ -234,7 +222,7 @@
               <span>Diğer Tel: <strong>0 (546) 203 23 02</strong></span>
             </div>
             <div class="contact-row">
-              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               <span>Bölge: <strong>Manisa / Turgutlu</strong></span>
             </div>
           </div>
@@ -294,155 +282,7 @@
     </div>
   </footer>
 
-  <!-- ============================================================== -->
-  <!-- 7. YENİDEN TASARLANAN KUSURSUZ İLAN DETAY MODALI               -->
-  <!-- ============================================================== -->
-  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
-    <div class="modal-container">
-      
-      <!-- Modal Üst Başlık Çubuğu (Her Zaman En Üstte Görünür) -->
-      <div class="modal-header-bar">
-        <div class="modal-header-left">
-          <div class="modal-badges-inline">
-            <span id="modal-status-badge" class="badge-status-pill badge-satilik">Satılık</span>
-            <span id="modal-category-badge" class="badge-type-pill">Daire</span>
-            <span id="modal-id-pill" class="badge-id-pill">İlan No: -</span>
-          </div>
-          <h2 class="modal-header-title" id="modal-title">İlan Başlığı Yükleniyor...</h2>
-          <div class="modal-header-loc" id="modal-loc">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>Konum</span>
-          </div>
-        </div>
-
-        <div class="modal-header-right">
-          <div class="modal-header-price" id="modal-price">0 TL</div>
-          <div class="modal-header-buttons">
-            <a id="modal-wa-btn" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
-              </svg>
-              WhatsApp
-            </a>
-            <a id="modal-call-btn" class="btn btn-primary" href="tel:05544613618">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-              Ara
-            </a>
-            <button class="modal-close-icon-btn" id="modal-close-btn" aria-label="Kapat">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Kaydırılabilir Gövdesi -->
-      <div class="modal-scrollable-content">
-
-        <!-- Ortalanmış Devasa Fotoğraf Sahnesi -->
-        <div class="gallery-wrapper">
-          <div class="gallery-stage-box" id="gallery-stage" title="Tam ekran görüntülemek için tıklayın">
-            <button class="gallery-nav-btn gallery-prev" id="gallery-prev-btn" aria-label="Önceki Fotoğraf">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            
-            <img id="gallery-main-img" class="gallery-main-img" src="" alt="İlan Fotoğrafı">
-            
-            <button class="gallery-nav-btn gallery-next" id="gallery-next-btn" aria-label="Sonraki Fotoğraf">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-
-            <!-- Fotoğraf Üzerindeki Tam Ekran Butonu -->
-            <button class="gallery-fullscreen-badge" id="btn-open-lightbox" title="Tam Ekran Görüntüle">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
-              <span>Tam Ekran Fotoğraf</span>
-            </button>
-
-            <div class="gallery-counter" id="gallery-counter">1 / 1</div>
-          </div>
-
-          <!-- Geniş Küçük Resimler (Thumbnails) -->
-          <div class="gallery-thumbs" id="gallery-thumbs"></div>
-        </div>
-
-        <!-- Hızlı Özet Çipleri (m², Oda, Kat) -->
-        <div class="modal-quick-chips-bar" id="modal-quick-chips"></div>
-
-        <!-- Detaylı Bilgiler: Sol Teknik Özellikler, Sağ Açıklama & Danışman -->
-        <div class="modal-info-two-col">
-          <!-- Sol Sütun: Teknik Özellikler & Etiketler -->
-          <div class="modal-info-left">
-            <h3 class="section-heading">İlan Özellikleri & Bilgileri</h3>
-            <div class="modal-specs-grid" id="modal-specs-grid"></div>
-
-            <h3 class="section-heading" id="modal-features-title" style="margin-top: 2rem;">Öne Çıkan Nitelikler</h3>
-            <div class="modal-tags-list" id="modal-features"></div>
-          </div>
-
-          <!-- Sağ Sütun: Detaylı Açıklama & Danışman -->
-          <div class="modal-info-right">
-            <h3 class="section-heading">İlan Açıklaması</h3>
-            <div class="modal-desc-card">
-              <p class="modal-desc-text" id="modal-desc"></p>
-            </div>
-
-            <!-- Danışman İletişim Kartı -->
-            <div class="advisor-box">
-              <div class="advisor-header">
-                <div class="advisor-avatar">ME</div>
-                <div>
-                  <div class="advisor-name">Muzaffer ERYILMAZ</div>
-                  <div class="advisor-role">Eryılmaz Emlak Danışmanlığı</div>
-                  <div class="advisor-doc">Taşınmaz Ticareti Yetki Belgesi: <strong>4500306</strong></div>
-                </div>
-              </div>
-              <div class="advisor-phones">
-                <a href="tel:05544613618" class="btn btn-outline btn-sm">📞 0 (554) 461 36 18</a>
-                <a href="tel:02363142018" class="btn btn-outline btn-sm">☎️ 0 (236) 314 20 18</a>
-              </div>
-              <button id="modal-share-btn" class="btn btn-outline" style="width: 100%; margin-top: 0.75rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                İlan Bağlantısını Paylaş
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================== -->
-  <!-- 8. YENİ: %100 EKRANI KAPLAYAN DEV LIGHTBOX (SİNEMA MODU)        -->
-  <!-- ============================================================== -->
-  <div class="lightbox-fullscreen" id="lightbox-fullscreen" role="dialog" aria-modal="true">
-    <div class="lightbox-top-bar">
-      <div class="lightbox-title-text" id="lightbox-title-text">Fotoğraf Galerisi</div>
-      <div class="lightbox-counter-badge" id="lightbox-counter">1 / 15</div>
-      <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Tam Ekrandan Çık">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div>
-
-    <div class="lightbox-viewport">
-      <button class="lightbox-nav-btn lightbox-prev" id="lightbox-prev-btn" aria-label="Önceki">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      </button>
-
-      <div class="lightbox-img-wrapper">
-        <img id="lightbox-main-img" class="lightbox-main-img" src="" alt="Tam Ekran Fotoğraf">
-      </div>
-
-      <button class="lightbox-nav-btn lightbox-next" id="lightbox-next-btn" aria-label="Sonraki">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </button>
-    </div>
-
-    <div class="lightbox-bottom-bar">
-      <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
-    </div>
-  </div>
-
-  <!-- 9. Yüzen Hızlı İletişim Butonları -->
+  <!-- Yüzen Hızlı Butonlar -->
   <div class="floating-actions">
     <a href="https://wa.me/905544613618?text=Merhaba,%20Ery%C4%B1lmaz%20Gayrimenkul%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="floating-btn float-wa" title="WhatsApp ile İletişim">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -454,11 +294,8 @@
     </a>
   </div>
 
-  <!-- Toast Bildirimi -->
-  <div class="toast" id="toast">Bildirim</div>
-
   <!-- JavaScript Kodları -->
   <script src="js/data.js"></script>
-  <script src="js/app.js?v=2.0"></script>
+  <script src="js/app.js?v=3.0"></script>
 </body>
 </html>

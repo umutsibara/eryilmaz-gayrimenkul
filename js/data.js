@@ -25,6 +25,83 @@ window.COMPANY_DATA = {
 
 window.LISTINGS_DATA = [
   {
+    "id": "3d-demo-01",
+    "isFeatured": true,
+    "has3DTour": true,
+    "title": "TURGUTLU ERGENEKON'DA 3D SANAL TURLU LÜKS 4+1 AKILLI VİLLA & TERAS",
+    "url": "ilan.html?id=3d-demo-01",
+    "status": "Satılık",
+    "category": "Daire / Konut",
+    "price": "9.850.000 TL",
+    "priceNum": 9850000,
+    "date": "17 Ekim 2026",
+    "city": "Manisa",
+    "district": "Turgutlu",
+    "neighborhood": "Ergenekon Mah.",
+    "locationDisplay": "Turgutlu, Ergenekon Mah.",
+    "m2": "285 m²",
+    "rooms": "4+1",
+    "floor": "Müstakil (3 Kat)",
+    "specs": {
+      "İlan No": "ERY-3D-9850",
+      "Brüt m²": "285 m²",
+      "Net m²": "240 m²",
+      "Oda Sayısı": "4+1",
+      "Bina Yaşı": "0 (Sıfır)",
+      "Bulunduğu Kat": "Müstakil Bahçeli",
+      "Isıtma": "Yerden Isıtma & Doğalgaz",
+      "Banyo Sayısı": "3 (2 Ebeveyn Banyolu)",
+      "Balkon / Teras": "Geniş Panoramik Teras",
+      "Krediye Uygunluk": "Evet",
+      "Tapu Durumu": "Kat Mülkiyetli (Müstakil)",
+      "Sanal Tur": "3D 360° Etkileşimli Tur Mevcut"
+    },
+    "features": [
+      "3D Sanal Tur Desteği",
+      "Akıllı Ev Otomasyonu",
+      "Yerden Isıtma",
+      "Ebeveyn Banyosu",
+      "Giyinme Odası",
+      "Özel Otopark",
+      "Peyzajlı Bahçe",
+      "Otomatik Panjur",
+      "Lüks Ankastre Set",
+      "Teras & Barbekü Alanı",
+      "Kamera & Güvenlik Sistemi",
+      "Görüntülü Diafon"
+    ],
+    "description": "ERYILMAZ EMLAK & GAYRİMENKUL GÜVENCESİYLE\nMANİSA TURGUTLU ERGENEKON MAHALLESİ'NİN EN SEÇKİN VE NEZİH MEVKİİNDE\n\nBu ilanı Türkiye'nin en modern 3D Sanal Tur teknolojisi ile yerinizden kalkmadan, odaların içinde 360 derece adım adım gezerek inceleyebilirsiniz!\n\nÖNE ÇIKAN ÖZELLİKLER:\n• 285 m² Brüt, 240 m² Net kullanım alanı\n• 4+1 ferah oda mimarisi, yüksek tavanlar ve geniş cam cepheler\n• 1. Sınıf ithal lake mutfak dolapları ve granit ada tezgah\n• 3 adet lüks banyo & WC (2 ebeveyn banyosu)\n• Akıllı ev sistemi ile cep telefonu üzerinden uzaktan kontrol\n• Müstakil bahçe ve geniş dinlenme terası\n• Okullara, marketlere ve yeni yaşam merkezine yürüme mesafesinde\n\nAYRINTILI BİLGİ, YER GÖSTERİMİ VE RANDEVU İÇİN:\nMuzaffer ERYILMAZ - 0 (554) 461 36 18",
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "mainImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+    "tourRooms": [
+      {
+        "id": "salon",
+        "name": "Ferah Salon (Giriş)",
+        "panorama": "https://pannellum.org/images/alma.jpg",
+        "desc": "Yüksek tavanlı, bahçe manzaralı geniş salon"
+      },
+      {
+        "id": "mutfak",
+        "name": "Lüks Ada Mutfak",
+        "panorama": "https://pannellum.org/images/cerro-toco-0.jpg",
+        "desc": "Özel tasarım ada tezgah ve ankastre alan"
+      },
+      {
+        "id": "teras",
+        "name": "Panoramik Teras & Manzara",
+        "panorama": "https://pannellum.org/images/bma-1.jpg",
+        "desc": "Açık hava oturma ve barbekü alanı"
+      }
+    ]
+  },
+  {
     "id": "595551",
     "title": "ATATÜRK BULVARINDA 240 M2 5+1 ŞEKLİNDE KİRALIK OFİS.",
     "url": "https://emlaksitem.com/ilan/ataturk-bulvarinda-240-m2-51-seklinde-kiralik-ofis-595551",
